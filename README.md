@@ -1,8 +1,3 @@
-Here is the updated `README.md` tailored for the current `cotc.schema.v1.json` and project scope, reflecting your governance-first positioning:
-
----
-
-```markdown
 # Chain of Thought Contract (COTC) Governance Framework
 
 A governance-grade system for managing constraint-based AI interactions. COTC formalizes instruction-following into structured, auditable contracts using JSON schemas, validator tiers, and role-defined execution layers.
