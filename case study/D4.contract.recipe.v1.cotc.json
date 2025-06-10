@@ -1,0 +1,43 @@
+{
+  "contract_id": "recipe.v1",
+  "title": "Recipe Generation Contract",
+  "version": "1.0.0",
+  "description": "Contract for recipe generation with constraint validation and audit tier handling",
+  "role": "generator",
+  "constraint_tier": 2,
+  "applies_to": "recipe_generation",
+  "constraints": [
+    {
+      "field": "dietary_restrictions",
+      "type": "enum",
+      "values": ["vegetarian", "vegan", "omnivore"],
+      "violation_tier": 2,
+      "required": true,
+      "notes": "Generated recipes must comply with specified dietary type"
+    },
+    {
+      "field": "ingredient_blacklist",
+      "type": "array",
+      "violation_tier": 1,
+      "required": false,
+      "notes": "List of prohibited ingredients (allergens, toxins)"
+    },
+    {
+      "field": "output_format",
+      "type": "enum",
+      "values": ["markdown", "json"],
+      "violation_tier": 3,
+      "required": false,
+      "notes": "Preferred output structure"
+    },
+    {
+      "field": "audit_required",
+      "type": "boolean",
+      "violation_tier": 3,
+      "required": true,
+      "notes": "Whether output must be logged and validated"
+    }
+  ],
+  "audit_fields": ["dietary_compliance", "ingredient_check", "format_validation"],
+  "fallback_instructions": "If dietary constraint violated, reject generation and log violation"
+}

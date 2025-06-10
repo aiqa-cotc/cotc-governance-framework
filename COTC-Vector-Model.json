@@ -1,0 +1,26 @@
+{
+  "$schema": "https://aiqa.ai/schemas/cotc-vector-model-v1.0.json",
+  "version": "1.0",
+  "description": "Formal schema for the COTC Governance Vector Model, mapping governance contracts across AI roles, industries, regulations, asset types, risk classes, and actor types.",
+  "vector": {
+    "id": "string (unique identifier)",
+    "role": "string (e.g., CFO, CISO, CMO)",
+    "industry": "string (e.g., Finance, Healthcare, Manufacturing)",
+    "regulations": ["string (e.g., SEC, HIPAA, GDPR)"],
+    "subject": "string (summary of governed activity or behavior)",
+    "included": ["string (key AI functions, decisions, or assets affected)"],
+    "relevant": ["string (constraints, risks, compliance requirements, or failure conditions)"],
+    "cotc_integration": {
+      "level": "string (e.g., prompt, output, validator, multi-agent chain)",
+      "enforcement": "string (e.g., schema, epistemic scoring, fallback protocol, audit requirement)",
+      "reflex": "boolean (true if runtime governance or reactivity is required)"
+    },
+    "asset_type": "string (e.g., model, dataset, output, autonomous agent)",
+    "risk_class": "string (e.g., reputational, legal, financial, safety-critical)",
+    "actor_type": "string (e.g., human user, autonomous agent, multi-agent chain, toolchain component)",
+    "rag_reference": {
+      "used": "boolean (true if RAG applies to the context)",
+      "failure_modes": ["string (how RAG falls short in this context)"]
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "contract_id": "runtime.react.v1",
+  "title": "React Runtime Integrity Validator",
+  "version": "1.0.0",
+  "description": "Governs runtime integrity validation for React core APIs (useEffect, useState, etc) to detect corruption, mutation, or context drift in sandboxed or dynamic environments",
+  "role": "validator",
+  "constraint_tier": 4,
+  "applies_to": "react_runtime_environment",
+  "constraints": [
+    {
+      "field": "hook_integrity",
+      "type": "presence",
+      "violation_tier": 1,
+      "required": true,
+      "notes": "React hooks must maintain valid references post-mount"
+    },
+    {
+      "field": "lifecycle_stability", 
+      "type": "enum",
+      "values": ["mounted", "unmounted", "updating"],
+      "violation_tier": 2,
+      "required": true,
+      "notes": "Component lifecycle must follow expected state transitions"
+    },
+    {
+      "field": "import_corruption",
+      "type": "presence", 
+      "violation_tier": 0,
+      "required": true,
+      "notes": "React import references must not mutate to null or undefined"
+    },
+    {
+      "field": "monitoring_interval",
+      "type": "range",
+      "min": 100,
+      "max": 5000,
+      "violation_tier": 3,
+      "required": false,
+      "notes": "Runtime check interval in milliseconds"
+    }
+  ],
+  "tiers": {
+    "0": {
+      "name": "Critical Runtime Corruption",
+      "violation": "React core hooks (useEffect, useState) mutated to null",
+      "action": "Throw error and halt execution"
+    },
+    "1": {
+      "name": "Hook Reference Drift", 
+      "violation": "Hook references changed unexpectedly post-import",
+      "action": "Log warning and attempt recovery"
+    },
+    "2": {
+      "name": "Lifecycle Violation",
+      "violation": "Component lifecycle state inconsistency", 
+      "action": "Log event and continue monitoring"
+    },
+    "3": {
+      "name": "Performance Boundary",
+      "violation": "Monitoring frequency outside acceptable range",
+      "action": "Adjust monitoring parameters"
+    }
+  },
+  "validators": {
+    "startup_check": "validateReactRuntime()",
+    "continuous_monitor": "startReactRuntimeMonitoring()",
+    "corruption_detector": "createImportCorruptionDetector()",
+    "shadow_validator": "ShadowValidator.embed()"
+  },
+  "audit_fields": ["hook_name", "original_reference", "current_reference", "mutation_timestamp", "environment_context"],
+  "fallback_instructions": "If React runtime corruption detected, log full environment state and escalate to Tier 0"
+}
