@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "COTC Protocol Contract Schema V1.0",
+  "type": "object",
+  "required": ["@cotc", "version", "contract_id", "governance", "validation"],
+  "properties": {
+    "@cotc": {
+      "type": "string",
+      "description": "COTC contract type identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "COTC protocol version"
+    },
+    "contract_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9\\-]+$",
+      "description": "Unique contract identifier"
+    },
+    "governance": {
+      "$ref": "#/definitions/governance"
+    },
+    "validation": {
+      "$ref": "#/definitions/validation"
+    }
+  }
+}

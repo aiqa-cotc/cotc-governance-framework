@@ -1,0 +1,10 @@
+{
+  "validation": {
+    "conflict_resolution": {
+      "strategy": "weighted_consensus",
+      "minimum_agreement": 0.7,
+      "escalation_on_disagreement": true,
+      "human_arbitration_threshold": 0.5
+    }
+  }
+}

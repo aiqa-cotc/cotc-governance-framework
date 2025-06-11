@@ -1,0 +1,11 @@
+{
+  "governance": {
+    "compliance_priority": [
+      "HIPAA",
+      "GDPR", 
+      "SOX",
+      "ISO_27001"
+    ],
+    "conflict_resolution": "strictest_requirement_wins"
+  }
+}

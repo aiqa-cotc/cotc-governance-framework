@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cotc.enterprise.com/schemas/V1.0/contract.json",
+  "title": "COTC Enterprise Contract Schema V1.0",
+  "type": "object",
+  "required": [
+    "$schema",
+    "@cotc",
+    "version",
+    "contract_id",
+    "metadata",
+    "governance",
+    "scope",
+    "agents",
+    "checks",
+    "validation"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "cotc-enterprise-V1.0.json"
+    },
+    "@cotc": {
+      "type": "string",
+      "enum": ["enterprise_contract", "enhanced_security_contract", "enhanced_data_governance_contract"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^2\\.2$"
+    },
+    "contract_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["name", "description", "created_by", "created_at"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "description": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "created_by": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "last_modified": { "type": "string", "format": "date-time" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 20
+        },
+        "security_classification": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted"]
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["contract_type", "severity", "stakeholders"],
+      "properties": {
+        "contract_type": {
+          "type": "string",
+          "enum": ["security", "compliance", "feature", "domain", "meta"]
+        },
+        "severity": {
+          "type": "string", 
+          "enum": ["low", "medium", "high", "critical"]
+        }
+      }
+    }
+  }
+}

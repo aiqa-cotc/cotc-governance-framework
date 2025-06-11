@@ -1,0 +1,77 @@
+{
+  "@cotc": "enhanced_security_compliance_contract",
+  "version": "2.2",
+  "contract_id": "fin-ai-code-sec-002",
+  "governance": {
+    "contract_type": "security",
+    "severity": "critical",
+    "compliance_requirements": ["SOX", "PCI_DSS", "NIST_CSF"],
+    "stakeholders": [
+      {
+        "role": "security_team",
+        "approval_required": true,
+        "expertise_level": "security",
+        "escalation_threshold": 0.7
+      },
+      {
+        "role": "compliance_officer",
+        "notification_required": true,
+        "expertise_level": "compliance",
+        "sox_certification_required": true
+      },
+      {
+        "role": "ciso",
+        "escalation_level": "executive",
+        "expertise_level": "executive",
+        "final_authority": true
+      }
+    ],
+    "sla_requirements": {
+      "resolution_time": "2_hours",
+      "escalation_after": "1_hour",
+      "business_hours_priority": true
+    }
+  },
+  "validation": {
+    "validation_chain": [
+      {
+        "agent_type": "compliance",
+        "agent_name": "enhanced_sox_validator",
+        "authority_source": "SOX_Requirements_v2024",
+        "required": true,
+        "validation_criteria": {
+          "internal_controls_verification": true,
+          "segregation_of_duties_check": true,
+          "audit_trail_completeness": true
+        },
+        "diversity_requirements": {
+          "architecture_types": ["rule_based", "ml_based"],
+          "vendor_diversity": true,
+          "minimum_validators": 2
+        }
+      },
+      {
+        "agent_type": "security",
+        "agent_name": "diverse_security_scanner",
+        "authority_source": "CVE_Database",
+        "ground_truth_required": true,
+        "confidence_threshold": 0.95,
+        "validation_criteria": {
+          "vulnerability_scanning": "comprehensive",
+          "penetration_testing_simulation": true,
+          "secure_coding_standards": "enforced"
+        },
+        "diversity_requirements": {
+          "architecture_types": [
+            "static_analysis",
+            "dynamic_analysis", 
+            "ml_detection",
+            "behavioral_analysis"
+          ],
+          "multiple_vendors": true,
+          "cross_validation_required": true
+        }
+      }
+    ]
+  }
+}

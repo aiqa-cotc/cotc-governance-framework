@@ -1,0 +1,70 @@
+{
+  "@cotc": "enhanced_medical_compliance_contract",
+  "version": "2.2",
+  "contract_id": "health-ai-content-002",
+  "governance": {
+    "contract_type": "compliance",
+    "severity": "critical",
+    "compliance_requirements": ["HIPAA", "FDA_Guidelines", "ISO_13485", "Joint_Commission"],
+    "stakeholders": [
+      {
+        "role": "medical_director",
+        "approval_required": true,
+        "expertise_level": "medical",
+        "board_certification_required": true,
+        "malpractice_insurance_verified": true
+      },
+      {
+        "role": "privacy_officer",
+        "notification_required": true,
+        "expertise_level": "privacy",
+        "hipaa_certification_required": true
+      },
+      {
+        "role": "compliance_officer",
+        "escalation_level": "regulatory",
+        "expertise_level": "compliance",
+        "fda_liaison_capability": true
+      },
+      {
+        "role": "chief_medical_officer",
+        "final_medical_authority": true,
+        "patient_safety_responsibility": true
+      }
+    ],
+    "sla_requirements": {
+      "resolution_time": "30_minutes",
+      "escalation_after": "15_minutes",
+      "emergency_override": "5_minutes"
+    }
+  },
+  "validation": {
+    "validation_chain": [
+      {
+        "agent_type": "compliance",
+        "agent_name": "enhanced_hipaa_validator",
+        "authority_source": "HIPAA_Requirements_2024",
+        "required": true,
+        "privacy_expertise_required": true,
+        "validation_criteria": {
+          "phi_detection_accuracy": 0.999,
+          "minimum_necessary_standard": true,
+          "consent_verification": true,
+          "breach_risk_assessment": true
+        }
+      },
+      {
+        "agent_type": "medical",
+        "agent_name": "clinical_guidelines_validator",
+        "authority_source": "Medical_Guidelines_Database",
+        "medical_expertise_required": true,
+        "required": true,
+        "validation_criteria": {
+          "clinical_accuracy_verification": true,
+          "contraindication_checking": true,
+          "evidence_based_validation": true
+        }
+      }
+    ]
+  }
+}

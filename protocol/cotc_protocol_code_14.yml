@@ -1,0 +1,42 @@
+name: AI Content Governance
+
+on:
+  pull_request:
+    paths: ['ai-generated/**']
+  
+jobs:
+  cotc-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup COTC
+        run: |
+          pip install cotc-enterprise
+          echo "$COTC_API_KEY" > .cotc-key
+        env:
+          COTC_API_KEY: ${{ secrets.COTC_API_KEY }}
+          
+      - name: Validate AI Content
+        run: |
+          cotc validate-batch \
+            --contract .cotc/enterprise-security.json \
+            --path ai-generated/ \
+            --format json \
+            --output cotc-results.json \
+            --fail-on-critical
+            
+      - name: Generate Compliance Report
+        run: |
+          cotc report \
+            --input cotc-results.json \
+            --template compliance-summary \
+            --output compliance-report.pdf
+            
+      - name: Upload Audit Trail
+        uses: actions/upload-artifact@v3
+        with:
+          name: cotc-audit-trail
+          path: |
+            cotc-results.json
+            compliance-report.pdf

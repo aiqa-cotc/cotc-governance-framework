@@ -1,0 +1,49 @@
+{
+  "@cotc": "enhanced_medical_compliance_contract",
+  "version": "2.2",
+  "contract_id": "health-ai-patient-comm-001",
+  "governance": {
+    "contract_type": "compliance",
+    "severity": "critical",
+    "compliance_requirements": ["HIPAA", "FDA_Guidelines", "ISO_13485"],
+    "stakeholders": [
+      {
+        "role": "medical_director",
+        "approval_required": true,
+        "medical_license_required": true,
+        "board_certification_required": true
+      },
+      {
+        "role": "privacy_officer",
+        "notification_required": true,
+        "hipaa_certification_required": true
+      }
+    ]
+  },
+  "validation": {
+    "confidence_requirements": {
+      "medical_accuracy_threshold": 0.999,
+      "privacy_compliance_threshold": 1.0
+    },
+    "validation_chain": [
+      {
+        "agent_type": "domain",
+        "agent_name": "medical_content_validator",
+        "authority_source": "PubMed_Literature",
+        "ground_truth_required": true,
+        "diversity_requirements": {
+          "medical_knowledge_bases": ["pubmed", "cochrane", "uptodate"],
+          "validation_approaches": ["evidence_based", "guideline_based"]
+        }
+      },
+      {
+        "agent_type": "compliance",
+        "agent_name": "hipaa_privacy_validator",
+        "validation_criteria": {
+          "phi_detection_accuracy": 0.999,
+          "minimum_necessary_standard": true
+        }
+      }
+    ]
+  }
+}

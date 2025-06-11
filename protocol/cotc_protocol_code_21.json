@@ -1,0 +1,58 @@
+{
+  "$schema": "cotc-enterprise-V1.0.json",
+  "@cotc": "enterprise_contract",
+  "version": "2.2",
+  "contract_id": "uuid",
+  "metadata": {
+    "name": "string",
+    "description": "string",
+    "created_by": "string",
+    "created_at": "ISO8601",
+    "last_modified": "ISO8601",
+    "tags": ["string"],
+    "security_classification": "public|internal|confidential|restricted"
+  },
+  "governance": {
+    "contract_type": "bug|feature|security|compliance|enhancement|refactor",
+    "severity": "low|medium|high|critical",
+    "compliance_requirements": ["SOX", "HIPAA", "PCI_DSS", "GDPR"],
+    "stakeholders": [
+      {
+        "role": "security_team|compliance_officer|tech_lead|business_owner",
+        "contact": "string",
+        "notification_required": true,
+        "approval_required": false,
+        "escalation_level": "primary|secondary|executive"
+      }
+    ],
+    "sla_requirements": {
+      "resolution_time": "1_hour|4_hours|24_hours|72_hours",
+      "escalation_triggers": [
+        {
+          "condition": "time_exceeded|confidence_low|critical_severity",
+          "escalation_target": "string",
+          "notification_method": "email|slack|sms|all"
+        }
+      ]
+    },
+    "audit_metadata": {
+      "business_impact": "revenue|compliance|security|operational",
+      "regulatory_mapping": ["string"],
+      "risk_classification": "low|medium|high|critical",
+      "data_sensitivity": "public|internal|confidential|restricted"
+    }
+  },
+  "scope": {
+    "technical_scope": {
+      "files": ["string"],
+      "directories": ["string"],
+      "environments": ["development|staging|production"],
+      "systems": ["string"]
+    },
+    "business_scope": {
+      "departments": ["string"],
+      "business_units": ["string"],
+      "geographic_regions": ["string"]
+    }
+  }
+}

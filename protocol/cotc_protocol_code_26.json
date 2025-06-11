@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "COTC Protocol Contract Schema V1.0",
+  "type": "object",
+  "required": ["@cotc", "version", "contract_id", "governance", "validation"],
+  "properties": {
+    "@cotc": {
+      "type": "string",
+      "description": "COTC contract type identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "COTC protocol version"
+    },
+    "contract_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9\\-]+$",
+      "description": "Unique contract identifier"
+    },
+    "governance": {
+      "$ref": "#/definitions/governance"
+    },
+    "validation": {
+      "$ref": "#/definitions/validation"
+    },
+    "enhanced_governance": {
+      "$ref": "#/definitions/enhanced_governance"
+    },
+    "failure_modes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/failure_mode"
+      }
+    },
+    "feature_specific": {
+      "$ref": "#/definitions/feature_specific"
+    }
+  },
+  "definitions": {
+    "governance": {
+      "type": "object",
+      "required": ["contract_type", "severity", "stakeholders"],
+      "properties": {
+        "contract_type": {
+          "type": "string",
+          "enum": ["security", "compliance", "feature", "domain", "meta"]
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "compliance_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["SOX", "HIPAA", "GDPR", "PCI_DSS", "CCPA", "NIST_CSF", "ISO_27001", "ISO_13485", "FDA_Guidelines", "LGPD", "PIPEDA"]
+          }
+        }
+      }
+    }
+  }
+}

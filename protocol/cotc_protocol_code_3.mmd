@@ -1,0 +1,41 @@
+graph TD
+    CA[Client Application] --> AGW[API Gateway]
+    AGW --> AUTH[Authentication]
+    AGW --> RATE[Rate Limiting]
+    
+    subgraph "COTC Core Services"
+        VS[Validation Service]
+        CS[Contract Service]
+        NS[Notification Service]
+        AS[Audit Service]
+    end
+    
+    subgraph "Validation Engine"
+        VE[Validation Orchestrator]
+        CV[Compliance Validators]
+        SV[Security Validators]
+        DV[Domain Validators]
+        RV[Risk Validators]
+        MV[Meta Validators]
+    end
+    
+    subgraph "Human Review System"
+        HRS[Review Orchestrator]
+        ERT[Expert Routing]
+        WLB[Workload Balancer]
+        NTF[Notification Engine]
+    end
+    
+    subgraph "Data Layer"
+        PDB[(Primary Database)]
+        ADB[(Audit Database)]
+        BC[Blockchain Ledger]
+        CACHE[Redis Cache]
+    end
+    
+    subgraph "External Systems"
+        REG[Regulatory Sources]
+        GT[Ground Truth Systems]
+        IAM[Identity Management]
+        MON[Monitoring]
+    end
