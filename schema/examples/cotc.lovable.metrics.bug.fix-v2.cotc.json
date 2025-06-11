@@ -1,0 +1,56 @@
+{
+  "!IMPORTANT": "This task has repeatedly failed due to simulation drift and/or hallucination. Reset context and verify understanding explicitly before proceeding.",
+  "contract_id": "COTC-MetricsRelocationRemoval-002",
+  "version": "v2.2.1",
+  "role": "executor",
+  "constraint_tier": 0,
+  "applies_to": "AI Comparison Results and Conversion Results Views",
+  "description": "Definitively relocate advanced scientific content quality metrics to the Sheet component in AI Comparison Results, and remove irrelevant linguistic metrics from AI Prompt Comparison.",
+  "bug_severity": "critical",
+  "priority": "high",
+  "task_type": "bug_fix",
+  "constraints": [
+    {
+      "field": "scientificMetricsRelocation",
+      "type": "presence",
+      "violation_tier": 0,
+      "notes": "All advanced metrics must appear exclusively in the Sheet component within AI Comparison Results, accessible via a clear CTA (Sheet trigger)."
+    },
+    {
+      "field": "linguisticMetricsRemoval",
+      "type": "presence",
+      "violation_tier": 0,
+      "notes": "All linguistic and prompt quality metrics must be entirely removed from AI Prompt Comparison view, including any Structured Prompt Quality Score and related metrics."
+    },
+    {
+      "field": "correctMetricContext",
+      "type": "boolean",
+      "required": true,
+      "violation_tier": 0,
+      "notes": "Metrics must strictly reflect efficacy of structured vs natural language responses only, with no reference to linguistic prompt conversions."
+    },
+    {
+      "field": "metricsVisibility",
+      "type": "boolean",
+      "required": true,
+      "violation_tier": 0,
+      "notes": "Metrics in the Sheet component must be fully visible and accessible to users via a clearly labeled CTA."
+    }
+  ],
+  "fallback_instructions": "Immediately revert any deployment that does not meet these constraints. Notify stakeholders and log detailed failure rationale.",
+  "audit_fields": [
+    "scientificMetricsRelocation",
+    "linguisticMetricsRemoval",
+    "correctMetricContext",
+    "metricsVisibility"
+  ],
+  "governance": {
+    "compliance_check_frequency": "Daily until fully resolved",
+    "failure_consequences": {
+      "initial_failure": "Explicitly document failure and issue immediate, detailed correction instructions, including a context reset to mitigate simulation drift or hallucination. Require confirmation of understanding before proceeding.",
+      "repeated_failure": "Document repeated issues thoroughly, explicitly point out occurrences of simulation drift, hallucination, or other identified anti-patterns. Reassess instruction clarity and Lovable's task suitability.",
+      "severe_or_continued_noncompliance": "Pause usage of Lovable for this task; seek alternative assistance or manual resolution."
+    },
+    "documentation": "Comprehensive documentation and explicit explanations required for any deviations or delays, explicitly noting if simulation drift or hallucination occurred."
+  }
+}

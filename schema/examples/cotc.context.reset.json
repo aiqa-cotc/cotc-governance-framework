@@ -1,0 +1,41 @@
+{
+  "!IMPORTANT": "Immediate context reset required due to repeated task failures and evident simulation drift and hallucination. Confirm explicitly before proceeding.",
+  "contract_id": "COTC-ContextReset-003",
+  "version": "v1.0.0",
+  "role": "executor",
+  "constraint_tier": 0,
+  "applies_to": "AI Agent Context Management",
+  "description": "Explicitly reset AI agent's context to eliminate prior assumptions, drift, or hallucinations affecting compliance and task accuracy.",
+  "bug_severity": "critical",
+  "priority": "high",
+  "task_type": "maintenance",
+  "constraints": [
+    {
+      "field": "contextReset",
+      "type": "presence",
+      "violation_tier": 0,
+      "notes": "AI agent must fully reset internal state and context to initial conditions."
+    },
+    {
+      "field": "explicitConfirmation",
+      "type": "boolean",
+      "required": true,
+      "violation_tier": 0,
+      "notes": "Agent must explicitly confirm understanding of the reset action before proceeding."
+    }
+  ],
+  "fallback_instructions": "Pause task execution immediately if explicit context reset is not confirmed. Document clearly and escalate for manual oversight.",
+  "audit_fields": [
+    "contextReset",
+    "explicitConfirmation"
+  ],
+  "governance": {
+    "compliance_check_frequency": "Immediate verification required",
+    "failure_consequences": {
+      "initial_failure": "Immediate re-attempt of context reset with clear documentation",
+      "repeated_failure": "Cease using current AI agent for affected tasks until issue is resolved manually",
+      "severe_or_continued_noncompliance": "Formal documentation and full reassessment of AI agent usage"
+    },
+    "documentation": "Detailed records of reset attempts, confirmation results, and any further observed drift or hallucination are mandatory."
+  }
+}

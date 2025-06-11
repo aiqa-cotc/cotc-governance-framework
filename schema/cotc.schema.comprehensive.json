@@ -1,9 +1,13 @@
 {
-  "$id": "cotc.schema.comprehensive.v1.json",
-  "title": "Comprehensive Chain of Thought Contract (COTC) Schema v1",
+  "$id": "cotc.schema.comprehensive.v2.json",
+  "title": "Comprehensive Chain of Thought Contract (COTC) Schema v2",
   "type": "object",
   "required": ["contract_id", "role", "constraint_tier", "applies_to", "constraints", "task_type"],
   "properties": {
+    "!IMPORTANT": {
+      "type": "string",
+      "description": "Critical alert or directive indicating simulation drift, hallucination, or significant repeated task failures. Requires explicit context reset and verification."
+    },
     "contract_id": { "type": "string", "description": "Unique identifier for this contract" },
     "version": { "type": "string", "description": "Optional semantic version string (e.g. 'v1.0.0')" },
     "role": { "type": "string", "enum": ["validator", "generator", "auditor", "executor"], "description": "Operational role that this contract applies to" },
