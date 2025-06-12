@@ -4,59 +4,250 @@
   "type": "object",
   "required": ["@cotc", "version", "contract_id", "governance", "validation"],
   "properties": {
-    "@cotc": {
-      "type": "string",
-      "description": "COTC contract type identifier"
-    },
-    "version": {
-      "type": "string",
-      "pattern": "^\\d+\\.\\d+$",
-      "description": "COTC protocol version"
-    },
-    "contract_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9\\-]+$",
-      "description": "Unique contract identifier"
-    },
-    "governance": {
-      "$ref": "#/definitions/governance"
-    },
-    "validation": {
-      "$ref": "#/definitions/validation"
-    },
-    "enhanced_governance": {
-      "$ref": "#/definitions/enhanced_governance"
-    },
-    "failure_modes": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/failure_mode"
-      }
-    },
-    "feature_specific": {
-      "$ref": "#/definitions/feature_specific"
-    }
+    "@cotc": { "type": "string", "description": "COTC contract type identifier" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+$", "description": "COTC protocol version" },
+    "contract_id": { "type": "string", "pattern": "^[a-z0-9\\-]+$", "description": "Unique contract identifier" },
+    "governance": { "$ref": "#/definitions/governance" },
+    "validation": { "$ref": "#/definitions/validation" },
+    "enhanced_governance": { "$ref": "#/definitions/enhanced_governance" },
+    "failure_modes": { "type": "array", "items": { "$ref": "#/definitions/failure_mode" } },
+    "feature_specific": { "$ref": "#/definitions/feature_specific" }
   },
   "definitions": {
     "governance": {
       "type": "object",
       "required": ["contract_type", "severity", "stakeholders"],
       "properties": {
-        "contract_type": {
-          "type": "string",
-          "enum": ["security", "compliance", "feature", "domain", "meta"]
+        "contract_type": { "type": "string", "enum": ["security", "compliance", "feature", "domain", "meta"] },
+        "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+        "compliance_requirements": { "type": "array", "items": { "type": "string", "enum": ["SOX", "HIPAA", "GDPR", "PCI_DSS", "CCPA", "NIST_CSF", "ISO_27001", "ISO_13485", "FDA_Guidelines", "LGPD", "PIPEDA"] } },
+        "stakeholders": { "type": "array", "items": { "$ref": "#/definitions/stakeholder" } },
+        "sla_requirements": { "$ref": "#/definitions/sla_requirements" }
+      }
+    },
+    "stakeholder": {
+      "type": "object",
+      "required": ["role"],
+      "properties": {
+        "role": { "type": "string" },
+        "approval_required": { "type": "boolean" },
+        "notification_required": { "type": "boolean" },
+        "escalation_level": { "type": "string" },
+        "expertise_level": { "type": "string", "enum": ["technical", "business", "security", "compliance", "medical", "privacy", "executive"] },
+        "escalation_threshold": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "sla_requirements": {
+      "type": "object",
+      "properties": {
+        "resolution_time": { "type": "string" },
+        "escalation_after": { "type": "string" },
+        "business_hours_priority": { "type": "boolean" },
+        "emergency_override": { "type": "string" }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["validation_chain"],
+      "properties": {
+        "validation_chain": { "type": "array", "items": { "$ref": "#/definitions/validator" } },
+        "confidence_requirements": { "$ref": "#/definitions/confidence_requirements" },
+        "enhanced_security": { "$ref": "#/definitions/enhanced_security" }
+      }
+    },
+    "validator": {
+      "type": "object",
+      "required": ["agent_type", "agent_name"],
+      "properties": {
+        "agent_type": { "type": "string", "enum": ["compliance", "security", "domain", "risk", "meta"] },
+        "agent_name": { "type": "string" },
+        "authority_source": { "type": "string" },
+        "required": { "type": "boolean" },
+        "confidence_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "ground_truth_required": { "type": "boolean" },
+        "human_review_required": { "type": "boolean" },
+        "specialization": { "type": "string" },
+        "diversity_requirements": { "$ref": "#/definitions/diversity_requirements" },
+        "validation_criteria": { "type": "object", "additionalProperties": true }
+      }
+    },
+    "diversity_requirements": {
+      "type": "object",
+      "properties": {
+        "architecture_types": { "type": "array", "items": { "type": "string" } },
+        "vendor_diversity": { "type": "boolean" },
+        "multiple_vendors": { "type": "boolean" },
+        "minimum_validators": { "type": "integer", "minimum": 1 },
+        "cross_validation_required": { "type": "boolean" }
+      }
+    },
+    "confidence_requirements": {
+      "type": "object",
+      "properties": {
+        "minimum_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "human_review_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "emergency_override_threshold": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "enhanced_security": {
+      "type": "object",
+      "properties": {
+        "supply_chain_verification": { "$ref": "#/definitions/supply_chain_verification" },
+        "adversarial_testing": { "$ref": "#/definitions/adversarial_testing" },
+        "privacy_protection": { "$ref": "#/definitions/privacy_protection" },
+        "data_protection": { "$ref": "#/definitions/data_protection" },
+        "privacy_engineering": { "$ref": "#/definitions/privacy_engineering" }
+      }
+    },
+    "supply_chain_verification": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean" },
+        "cryptographic_signatures": { "type": "boolean" },
+        "source_auditing": { "type": "string" },
+        "dependency_scanning": { "type": "string" },
+        "sbom_generation": { "type": "boolean" }
+      }
+    },
+    "adversarial_testing": {
+      "type": "object",
+      "properties": {
+        "frequency": { "type": "string" },
+        "meta_deception_testing": { "type": "boolean" },
+        "coordinated_attack_simulation": { "type": "boolean" },
+        "red_team_validation": { "type": "string" }
+      }
+    },
+    "privacy_protection": {
+      "type": "object",
+      "properties": {
+        "phi_detection": { "type": "boolean" },
+        "de_identification_verification": { "type": "boolean" },
+        "consent_validation": { "type": "boolean" },
+        "minimum_necessary_enforcement": { "type": "boolean" },
+        "audit_log_phi_protection": { "type": "boolean" }
+      }
+    },
+    "data_protection": {
+      "type": "object",
+      "properties": {
+        "encryption_at_rest": { "type": "boolean" },
+        "encryption_in_transit": { "type": "boolean" },
+        "key_management_verification": { "type": "boolean" },
+        "tokenization_for_sensitive_data": { "type": "boolean" }
+      }
+    },
+    "privacy_engineering": {
+      "type": "object",
+      "properties": {
+        "privacy_by_design_verification": { "type": "boolean" },
+        "data_minimization_check": { "type": "boolean" },
+        "purpose_limitation_validation": { "type": "boolean" },
+        "differential_privacy_implementation": { "type": "boolean" }
+      }
+    },
+    "enhanced_governance": {
+      "type": "object",
+      "properties": {
+        "regulatory_alignment": { "$ref": "#/definitions/regulatory_alignment" },
+        "human_review_optimization": { "$ref": "#/definitions/human_review_optimization" },
+        "audit_requirements": { "$ref": "#/definitions/audit_requirements" },
+        "clinical_governance": { "$ref": "#/definitions/clinical_governance" },
+        "continuous_monitoring": { "$ref": "#/definitions/continuous_monitoring" }
+      }
+    },
+    "regulatory_alignment": {
+      "type": "object",
+      "properties": {
+        "nist_ai_rmf_mapping": {
+          "type": "object",
+          "properties": {
+            "govern_controls": { "type": "array", "items": { "type": "string" } },
+            "manage_controls": { "type": "array", "items": { "type": "string" } },
+            "map_controls": { "type": "array", "items": { "type": "string" } },
+            "measure_controls": { "type": "array", "items": { "type": "string" } }
+          }
         },
-        "severity": {
-          "type": "string",
-          "enum": ["low", "medium", "high", "critical"]
+        "gdpr_compliance": {
+          "type": "object",
+          "properties": {
+            "lawful_basis_documentation": { "type": "boolean" },
+            "data_subject_rights_implementation": { "type": "boolean" },
+            "privacy_impact_assessment": { "type": "string" },
+            "privacy_by_design": { "type": "boolean" },
+            "data_minimization": { "type": "boolean" },
+            "explicit_consent_required": { "type": "boolean" }
+          }
         },
-        "compliance_requirements": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "enum": ["SOX", "HIPAA", "GDPR", "PCI_DSS", "CCPA", "NIST_CSF", "ISO_27001", "ISO_13485", "FDA_Guidelines", "LGPD", "PIPEDA"]
+        "ccpa_compliance": {
+          "type": "object",
+          "properties": {
+            "consumer_rights_implementation": { "type": "boolean" },
+            "data_sale_opt_out": { "type": "boolean" },
+            "privacy_policy_compliance": { "type": "boolean" },
+            "consumer_request_automation": { "type": "boolean" }
           }
         }
+      }
+    },
+    "human_review_optimization": {
+      "type": "object",
+      "properties": {
+        "dynamic_thresholds": { "type": "boolean" },
+        "expert_routing": { "type": "boolean" },
+        "workload_balancing": { "type": "boolean" },
+        "escalation_intelligence": { "type": "string" },
+        "business_impact_prioritization": { "type": "boolean" },
+        "cross_functional_expert_routing": { "type": "boolean" }
+      }
+    },
+    "failure_mode": {
+      "type": "object",
+      "required": ["failure_type", "description", "detection_method", "mitigation_strategy", "severity_impact"],
+      "properties": {
+        "failure_type": { "type": "string" },
+        "description": { "type": "string" },
+        "detection_method": { "type": "string" },
+        "mitigation_strategy": { "type": "string" },
+        "severity_impact": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+        "response_time": { "type": "string" },
+        "notification_requirements": { "type": "array", "items": { "type": "string" } },
+        "regulatory_reporting_required": { "type": "boolean" }
+      }
+    },
+    "feature_specific": {
+      "type": "object",
+      "properties": {
+        "acceptance_criteria": { "type": "array", "items": { "$ref": "#/definitions/acceptance_criterion" } },
+        "performance_requirements": {
+          "type": "object",
+          "properties": {
+            "response_time": { "type": "string" },
+            "availability": { "type": "string" },
+            "scalability": { "type": "string" },
+            "throughput": { "type": "string" }
+          }
+        },
+        "business_requirements": {
+          "type": "object",
+          "properties": {
+            "revenue_impact": { "type": "string" },
+            "customer_satisfaction": { "type": "string" },
+            "competitive_differentiation": { "type": "string" }
+          }
+        }
+      }
+    },
+    "acceptance_criterion": {
+      "type": "object",
+      "required": ["criterion_id", "description", "validation_method", "priority"],
+      "properties": {
+        "criterion_id": { "type": "string" },
+        "description": { "type": "string" },
+        "validation_method": { "type": "string" },
+        "priority": { "type": "string", "enum": ["must_have", "should_have", "could_have", "wont_have"] },
+        "success_threshold": { "type": "number" },
+        "fairness_constraint": { "type": "string" }
       }
     }
   }

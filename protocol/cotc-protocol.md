@@ -373,26 +373,28 @@ Plan integration with your existing compliance processes
 
 The Chain-of-Thought Contract (COTC) protocol is based on several fundamental concepts that form the foundation of both governance and intelligent validation:
 
-  /validations:
-    post:
-      summary: Execute Multi-Agent Validation
-      description: Execute validation with security, diversity, and governance controls
-      operationId: executeEnhancedValidation
-      requestBody:
-        required: true
+**OpenAPI 3.0+ Endpoint and Schema Example:**
+```yaml
+/validations:
+  post:
+    summary: Execute Multi-Agent Validation
+    description: Execute validation with security, diversity, and governance controls
+    operationId: executeEnhancedValidation
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EnhancedValidationRequest'
+    responses:
+      '202':
+        description: Validation initiated
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EnhancedValidationRequest'
-      responses:
-        '202':
-          description: Validation initiated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ValidationSession'
-        '400':
-          description: Invalid validation request
+              $ref: '#/components/schemas/ValidationSession'
+      '400':
+        description: Invalid validation request
 
   /validations/{sessionId}:
     get:
@@ -799,6 +801,7 @@ components:
               items:
                 $ref: '#/components/schemas/ComplianceViolation'
         cryptographic_signature:
+```
 
 ## Contract
 
@@ -2190,29 +2193,34 @@ A major e-commerce platform serving 50M+ global customers is implementing an AI-
 ### Phase 1: Security Foundation (Months 1-3)
 
 #### Objectives
-Establish comprehensive security controls, validator diversity, and cryptographic audit infrastructure
+
+Establish comprehensive security controls, validator diversity, and cryptographic audit infrastructure.
 
 #### Detailed Deliverables
 
 **Month 1: Core Security Infrastructure**
-- Deploy cryptographically secured audit trail with blockchain backing
-- Implement supply chain security monitoring for all validators
-- Establish diverse validator ensemble architecture (minimum 3 types per domain)
-- Deploy basic adversarial testing framework
+
+  - Deploy cryptographically secured audit trail with blockchain backing
+  - Implement supply chain security monitoring for all validators
+  - Establish diverse validator ensemble architecture (minimum 3 types per domain)
+  - Deploy basic adversarial testing framework
 
 **Month 2: Validator Integrity Framework**
-- Complete validator integrity verification system
-- Implement continuous behavioral monitoring for all validators
-- Deploy automated supply chain vulnerability scanning
-- Establish cryptographic signature verification for all validator operations
+
+  - Complete validator integrity verification system
+  - Implement continuous behavioral monitoring for all validators
+  - Deploy automated supply chain vulnerability scanning
+  - Establish cryptographic signature verification for all validator operations
 
 **Month 3: Advanced Security Controls**
-- Complete adversarial testing framework with meta-deception detection
-- Implement validator isolation and containerization
-- Deploy emergency response protocols for security incidents
-- Complete security team training on threat detection
+
+  - Complete adversarial testing framework with meta-deception detection
+  - Implement validator isolation and containerization
+  - Deploy emergency response protocols for security incidents
+  - Complete security team training on threat detection
 
 #### Success Criteria
+
 - **Validator Diversity**: 100% of critical validation chains meet minimum diversity requirements
 - **Supply Chain Security**: Zero unverified validator components in production
 - **Audit Trail Integrity**: 100% cryptographic verification success rate
@@ -2222,7 +2230,8 @@ Establish comprehensive security controls, validator diversity, and cryptographi
 ### Phase 2: Intelligent Human Orchestration (Months 4-6)
 
 #### Objectives
-Implement intelligent workload management, dynamic threshold optimization, and human review processes
+
+Implement intelligent workload management, dynamic threshold optimization, and human review processes.
 
 #### Detailed Deliverables
 
