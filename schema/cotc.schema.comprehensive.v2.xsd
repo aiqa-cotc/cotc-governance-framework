@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://cotc.schema/v2"
+           xmlns="http://cotc.schema/v2"
+           elementFormDefault="qualified">
+
+  <xs:element name="contract" type="ContractType"/>
+
+  <xs:complexType name="ContractType">
+    <xs:sequence>
+      <xs:element name="IMPORTANT" type="xs:string" minOccurs="0"/>
+      <xs:element name="contract_id" type="xs:string"/>
+      <xs:element name="version" type="xs:string" minOccurs="0"/>
+      <xs:element name="role" type="RoleType"/>
+      <xs:element name="constraint_tier" type="xs:integer"/>
+      <xs:element name="applies_to" type="xs:string"/>
+      <xs:element name="description" type="xs:string" minOccurs="0"/>
+      <xs:element name="bug_severity" type="BugSeverityType" minOccurs="0"/>
+      <xs:element name="priority" type="PriorityType" minOccurs="0"/>
+      <xs:element name="task_type" type="TaskType"/>
+      <xs:element name="constraints" type="ConstraintListType"/>
+      <xs:element name="fallback_instructions" type="xs:string" minOccurs="0"/>
+      <xs:element name="audit_fields" type="StringListType" minOccurs="0"/>
+      <xs:element name="governance" type="GovernanceType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="RoleType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="validator"/>
+      <xs:enumeration value="generator"/>
+      <xs:enumeration value="auditor"/>
+      <xs:enumeration value="executor"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="BugSeverityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="critical"/>
+      <xs:enumeration value="major"/>
+      <xs:enumeration value="minor"/>
+      <xs:enumeration value="trivial"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="PriorityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="high"/>
+      <xs:enumeration value="medium"/>
+      <xs:enumeration value="low"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="TaskType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="bug_fix"/>
+      <xs:enumeration value="enhancement"/>
+      <xs:enumeration value="feature"/>
+      <xs:enumeration value="maintenance"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ConstraintListType">
+    <xs:sequence>
+      <xs:element name="constraint" type="ConstraintType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ConstraintType">
+    <xs:sequence>
+      <xs:element name="field" type="xs:string"/>
+      <xs:element name="type" type="ConstraintFieldType"/>
+      <xs:element name="required" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="values" type="StringListType" minOccurs="0"/>
+      <xs:element name="pattern" type="xs:string" minOccurs="0"/>
+      <xs:element name="min" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="max" type="xs:decimal" minOccurs="0"/>
+      <xs:element name="violation_tier" type="xs:integer"/>
+      <xs:element name="notes" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="ConstraintFieldType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="string"/>
+      <xs:enumeration value="number"/>
+      <xs:enumeration value="boolean"/>
+      <xs:enumeration value="enum"/>
+      <xs:enumeration value="pattern"/>
+      <xs:enumeration value="range"/>
+      <xs:enumeration value="presence"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="StringListType">
+    <xs:sequence>
+      <xs:element name="value" type="xs:string" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GovernanceType">
+    <xs:sequence>
+      <xs:element name="compliance_check_frequency" type="xs:string" minOccurs="0"/>
+      <xs:element name="failure_consequences" type="FailureConsequencesType" minOccurs="0"/>
+      <xs:element name="documentation" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="FailureConsequencesType">
+    <xs:sequence>
+      <xs:element name="initial_failure" type="xs:string" minOccurs="0"/>
+      <xs:element name="repeated_failure" type="xs:string" minOccurs="0"/>
+      <xs:element name="severe_or_continued_noncompliance" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

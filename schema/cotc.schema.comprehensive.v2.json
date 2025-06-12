@@ -1,0 +1,97 @@
+{
+  "$id": "cotc.schema.comprehensive.v2.json",
+  "title": "Comprehensive Chain of Thought Contract (COTC) Schema v2",
+  "type": "object",
+  "required": ["contract_id", "role", "constraint_tier", "applies_to", "constraints", "task_type"],
+  "properties": {
+    "!IMPORTANT": {
+      "type": "string",
+      "description": "Critical alert or directive indicating simulation drift, hallucination, or significant repeated task failures. Requires explicit context reset and verification."
+    },
+    "contract_id": { "type": "string", "description": "Unique identifier for this contract" },
+    "version": { "type": "string", "description": "Optional semantic version string (e.g. 'v1.0.0')" },
+    "role": {
+      "type": "string",
+      "enum": ["validator", "generator", "auditor", "executor"],
+      "description": "Operational role that this contract applies to"
+    },
+    "constraint_tier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4,
+      "description": "Constraint enforcement tier (0=critical, 4=optional)"
+    },
+    "applies_to": { "type": "string", "description": "Class of prompt, document, or system governed by this contract" },
+    "description": { "type": "string", "description": "Human-readable summary of contract purpose" },
+    "bug_severity": {
+      "type": "string",
+      "enum": ["critical", "major", "minor", "trivial"],
+      "description": "Severity of identified bug (if applicable)"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Priority level for task completion"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": ["bug_fix", "enhancement", "feature", "maintenance"],
+      "description": "Type of work addressed by contract"
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "type", "violation_tier"],
+        "properties": {
+          "field": { "type": "string", "description": "Target field or behavior" },
+          "type": {
+            "type": "string",
+            "enum": ["string", "number", "boolean", "enum", "pattern", "range", "presence"],
+            "description": "Constraint type"
+          },
+          "required": { "type": "boolean", "description": "Mandatory field flag (overrides type='presence')" },
+          "values": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Permitted values (for enum type)"
+          },
+          "pattern": { "type": "string", "description": "Regex pattern to match (for pattern type)" },
+          "min": { "type": "number", "description": "Minimum numeric value (for range type)" },
+          "max": { "type": "number", "description": "Maximum numeric value (for range type)" },
+          "violation_tier": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4,
+            "description": "Severity tier of constraint violation"
+          },
+          "notes": { "type": "string", "description": "Additional notes for humans or validators" }
+        }
+      }
+    },
+    "fallback_instructions": { "type": "string", "description": "Instructions if constraint violation occurs" },
+    "audit_fields": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Fields or signals to log for auditing"
+    },
+    "governance": {
+      "type": "object",
+      "properties": {
+        "compliance_check_frequency": { "type": "string", "description": "Frequency of compliance checks" },
+        "failure_consequences": {
+          "type": "object",
+          "properties": {
+            "initial_failure": { "type": "string", "description": "Actions upon initial failure" },
+            "repeated_failure": { "type": "string", "description": "Actions upon repeated failures" },
+            "severe_or_continued_noncompliance": {
+              "type": "string",
+              "description": "Actions for severe or ongoing noncompliance"
+            }
+          }
+        },
+        "documentation": { "type": "string", "description": "Documentation required for deviations" }
+      }
+    }
+  }
+}
