@@ -23,6 +23,7 @@ This index provides easy navigation between the main COTC Protocol documentation
 | [`cotc_protocol_code_47.ts`](./cotc_protocol_code_47.ts) | Enterprise Validation Engine | [Enterprise Validation Pipeline](#enterprise-validation-pipeline-with-security-controls) |
 | [`cotc_protocol_code_49.ts`](./cotc_protocol_code_49.ts) | Enhanced JIRA Integration | [JIRA Integration](#jira-integration) |
 | [`cotc_protocol_code_50.ts`](./cotc_protocol_code_50.ts) | Enhanced Slack Integration | [Slack Integration](#slack-integration-with-intelligent-routing) |
+| [`cotc_protocol_code_27.json`](./cotc_protocol_code_27.json) | Canonical COTC Contract Schema V1.0 | [Complete COTC Contract Schema V1.0](./cotc-protocol.md#complete-cotc-contract-schema-v10) |
 | [`cotc_protocol_code_51.json`](./cotc_protocol_code_51.json) | Financial Services Security Contract | [Expected Outcomes](#expected-outcomes) |
 
 ---

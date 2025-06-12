@@ -1,0 +1,90 @@
+openapi: 3.0.3
+info:
+  title: COTC Enterprise API V1.0
+  description: Complete API specification for COTC Protocol V1.0
+  version: 2.2.0
+  contact:
+    name: COTC Enterprise Support
+    url: https://cotc.enterprise.com/support
+    email: support@cotc.enterprise.com
+
+servers:
+  - url: https://api.cotc.enterprise.com/V1.0
+    description: Production API Server
+  - url: https://staging-api.cotc.enterprise.com/V1.0
+    description: Staging API Server
+
+security:
+  - ApiKeyAuth: []
+  - OAuth2: [read, write]
+
+paths:
+  /contracts:
+    post:
+      summary: Create Enterprise Contract
+      description: Create a new COTC contract with security and governance features
+      operationId: createEnhancedContract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnhancedCOTCContract'
+      responses:
+        '201':
+          description: Contract created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContractResponse'
+        '400':
+          description: Invalid contract specification
+        '401':
+          description: Unauthorized
+        '403':
+          description: Insufficient permissions
+    get:
+      summary: List Contracts
+      description: Retrieve list of contracts with filtering and sorting
+      operationId: listEnhancedContracts
+      parameters:
+        - name: contract_type
+          in: query
+          schema:
+            type: string
+            enum: [security, compliance, feature, bug, enhancement]
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high, critical]
+        - name: security_classification
+          in: query
+          schema:
+            type: string
+            enum: [public, internal, confidential, restricted]
+        - name: compliance_framework
+          in: query
+          schema:
+            type: string
+            enum: [SOX, HIPAA, PCI_DSS, GDPR, NIST_AI_RMF, ISO_42001]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of contracts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnhancedContractList'

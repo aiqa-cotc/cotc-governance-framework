@@ -152,9 +152,10 @@ class EnhancedEnterpriseValidationEngine {
     
     const session = await this.initializeEnhancedSession(contract, context)
 
-    // 1. Validator integrity verification - using empty array as fallback
-    const validationChain: ValidationStep[] = []
-    const validatorIntegrityResult = await this.verifyValidatorIntegrity(validationChain)
+    // 1. Validator integrity verification
+    const validatorIntegrityResult = await this.verifyValidatorIntegrity(
+      contract.enhanced_governance?.validation_chain || []
+    )
 
     if (!validatorIntegrityResult.security_verified) {
       await this.handleValidatorIntegrityFailure(validatorIntegrityResult, session)
@@ -169,11 +170,15 @@ class EnhancedEnterpriseValidationEngine {
     )
 
     // 3. Diversity compliance verification
-    const diversityCompliance = await this.verifyDiversityCompliance(validationChain)
+    const diversityCompliance = await this.verifyDiversityCompliance(
+      contract.enhanced_governance?.validation_chain || []
+    )
 
     // 4. Multi-agent validation with ground truth
     const validationConfig: EnhancedValidationConfig = {
-      validation_chain: validationChain
+      validation_chain: contract.enhanced_governance?.validation_chain || [],
+      enhanced_security: contract.enhanced_governance?.enhanced_security,
+      enhanced_governance: contract.enhanced_governance
     }
     const validationResults = await this.executeEnhancedValidationChain(
       validationConfig,
@@ -200,9 +205,8 @@ class EnhancedEnterpriseValidationEngine {
 
     // 7. Stakeholder notification if required
     if (this.requiresStakeholderNotification(riskAssessment, contract)) {
-      const stakeholders: any[] = [] // Fallback to empty array
       await this.stakeholderNotifier.notify(
-        stakeholders,
+        contract.enhanced_governance?.stakeholders || [],
         `COTC validation completed for contract ${contract.contract_id}`
       )
     }

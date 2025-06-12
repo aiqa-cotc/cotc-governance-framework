@@ -1,0 +1,26 @@
+# Pre-Implementation Checklist (YAML)
+pre_implementation:
+  organizational_readiness:
+    - Executive sponsorship secured
+    - Budget approved and allocated
+    - Project team assembled
+    - Stakeholder mapping completed
+    - Change management plan developed
+  technical_readiness:
+    - Infrastructure assessment completed
+    - Security requirements defined
+    - Integration points identified
+    - Performance requirements established
+    - Disaster recovery plan created
+  regulatory_readiness:
+    - Compliance requirements mapped
+    - Legal review completed
+    - Privacy impact assessment conducted
+    - Regulatory notifications prepared
+    - External counsel engaged (if needed)
+  operational_readiness:
+    - Training plan developed
+    - Support procedures defined
+    - Monitoring strategy established
+    - Incident response procedures updated
+    - Documentation standards defined

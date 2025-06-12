@@ -1,0 +1,31 @@
+/validations:
+  post:
+    summary: Execute Multi-Agent Validation
+    description: Execute validation with security, diversity, and governance controls
+    operationId: executeEnhancedValidation
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EnhancedValidationRequest'
+    responses:
+      '202':
+        description: Validation initiated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidationSession'
+      '400':
+        description: Invalid validation request
+
+  /validations/{sessionId}:
+    get:
+      summary: Get Validation Status
+      description: Retrieve detailed status of validation session including security metrics
+      operationId: getEnhancedValidationStatus
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
