@@ -1,3 +1,8 @@
+// 
+// 🔙 Return to main document: [COTC Protocol Documentation](./cotc-protocol.md)
+// 📍 This file contains: Enhanced Cache Manager Interface
+//
+
 // EnhancedCacheManager Interface for COTC Protocol
 interface EnhancedCacheManager {
   // Multi-level caching with security
@@ -42,7 +47,7 @@ interface SecureDatabaseCache {
   set(key: string, value: any, metadata?: CacheMetadata): Promise<void>
   delete(key: string): Promise<void>
   auditAccess(operation: string, key: string, userId: string): Promise<void>
-  getAuditTrail(key: string): Promise<AuditEntry[]>
+  getAuditTrail(key: string): Promise<CacheAuditEntry[]>
 }
 
 interface CacheMetadata {
@@ -54,10 +59,10 @@ interface CacheMetadata {
   encryption_key_id?: string
 }
 
-interface AuditEntry {
+interface CacheAuditEntry {
   timestamp: Date
   operation: 'get' | 'set' | 'delete' | 'verify'
   user_id: string
   result: 'success' | 'failure'
-  details?: string
+  details?: Record<string, any>
 }

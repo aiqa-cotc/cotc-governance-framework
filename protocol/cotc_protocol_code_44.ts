@@ -1,3 +1,124 @@
+//
+// 🔙 Return to main document: [COTC Protocol Documentation](./cotc-protocol.md)
+// 📍 This file contains: Validator Integrity Framework
+//
+
+// Type definitions
+interface Certificate {
+  id: string
+  issuer: string
+  subject: string
+  valid_from: Date
+  valid_to: Date
+  fingerprint: string
+}
+
+interface VulnerabilityResult {
+  id: string
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  description: string
+  affected_component: string
+  fix_available: boolean
+}
+
+interface SupplyChainIssue {
+  type: 'unsigned_dependency' | 'outdated_component' | 'vulnerable_package' | 'suspicious_origin'
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  description: string
+  affected_components: string[]
+  remediation: string
+}
+
+interface Dependency {
+  name: string
+  version: string
+  source: string
+  license: string
+  integrity_hash: string
+}
+
+interface Vulnerability {
+  id: string
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  description: string
+  affected_versions: string[]
+  fix_version?: string
+}
+
+interface PackageMetadata {
+  name: string
+  version: string
+  description: string
+  author: string
+  license: string
+  dependencies: Dependency[]
+}
+
+interface AccuracyMetric {
+  metric_type: 'precision' | 'recall' | 'f1_score' | 'accuracy'
+  value: number
+  baseline: number
+  threshold: number
+}
+
+interface ConfidenceDistribution {
+  low_confidence: number
+  medium_confidence: number
+  high_confidence: number
+  very_high_confidence: number
+}
+
+interface PatternAnalysis {
+  detected_patterns: string[]
+  anomaly_score: number
+  baseline_deviation: number
+}
+
+interface AnomalyScore {
+  overall_score: number
+  behavioral_score: number
+  performance_score: number
+  output_quality_score: number
+}
+
+interface AttackScenario {
+  name: string
+  description: string
+  attack_vector: string
+  success_probability: number
+  impact_level: 'low' | 'medium' | 'high' | 'critical'
+}
+
+interface Weakness {
+  type: 'architectural' | 'implementation' | 'configuration' | 'operational'
+  description: string
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  exploitability: number
+}
+
+interface MitigationStrategy {
+  strategy_name: string
+  description: string
+  effectiveness: number
+  implementation_cost: 'low' | 'medium' | 'high'
+  time_to_implement: string
+}
+
+interface DeceptionTest {
+  test_name: string
+  description: string
+  resistance_score: number
+  vulnerable_points: string[]
+}
+
+interface ValidatorWeakness {
+  validator_id: string
+  weakness_type: string
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  description: string
+  mitigation_required: boolean
+}
+
 // ValidatorIntegrityFramework Interface for COTC Protocol
 interface ValidatorIntegrityFramework {
   // Supply chain security

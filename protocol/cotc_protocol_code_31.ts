@@ -1,4 +1,29 @@
+//
+// 🔙 Return to main document: [COTC Protocol Documentation](./cotc-protocol.md)
+// 📍 This file contains: Enhanced Agent Management API Types
+//
+
 // Type definitions for Enhanced Agent Management API
+
+// Core interfaces
+interface ValidatorInfo {
+  id: string
+  type: string
+  architecture: string
+  vendor: string
+  version: string
+  capabilities: string[]
+  performance_metrics?: PerformanceMetrics
+  trust_score?: number
+}
+
+interface PerformanceMetrics {
+  latency_ms: number
+  throughput: number
+  accuracy: number
+  availability: number
+  error_rate: number
+}
 
 // Basic agent and config interfaces
 interface AgentDefinition {
@@ -127,7 +152,7 @@ interface DiversityRequirements {
 
 interface ValidatorEnsemble {
   ensembleId: string
-  validators: AgentInfo[]
+  validators: ValidatorInfo[]
   diversityScore: number
   confidence: number
   createdAt: Date

@@ -1,46 +1,58 @@
+// 
+// 🔙 Return to main document: [COTC Protocol Documentation](./cotc-protocol.md)
+// 📍 This file contains: Enhanced JIRA Integration with Intelligent Routing
+//
+
+// Import common types
+import type {
+  EnhancedViolation,
+  EnhancedEnterpriseContract,
+  HumanReviewOptimization,
+  Stakeholder,
+  StakeholderGroup,
+  ExpertiseLevel
+} from './cotc_protocol_common_types'
+
 /**
  * JIRA Integration with Enhanced Security
  * Provides secure JIRA integration with cryptographic audit trails
  */
 
-interface EnhancedViolation {
-  description: string;
-  confidence_score: number;
-  diversity_score?: number;
-  security_verified: boolean;
-  sensitive_data?: any;
+interface JIRATicketData {
+  project: string
+  issuetype: string
+  summary: string
+  description: string
+  priority: string
+  labels: string[]
+  customfields: Record<string, any>
+  security_level?: string
+  encrypted_details?: string
 }
 
-interface EnhancedEnterpriseContract {
-  contract_id: string;
-  integration: {
-    enterprise_systems: {
-      jira_integration: {
-        project_key: string;
-        issue_type: string;
-      };
-    };
-  };
-  governance: {
-    severity: string;
-    contract_type: string;
-    compliance_requirements: string[];
-  };
-  metadata: {
-    security_classification: string;
-  };
-  enhanced_governance?: {
-    regulatory_alignment?: any;
-  };
+interface SlackMessage {
+  text: string
+  blocks?: any[]
+}
+
+interface JIRATicketResult {
+  ticket_id: string
+  ticket_url: string
+  created_at: Date
+  audit_hash: string
 }
 
 class EnhancedJIRAIntegration {
-  async createSecureComplianceTicket(
+  private jiraClient: any
+  private encryptionService: any
+  private auditLogger: any
+
+  async createSecureTicket(
     violation: EnhancedViolation,
     contract: EnhancedEnterpriseContract
-  ): Promise<string> {
-    
-    const ticketData = {
+  ): Promise<JIRATicketResult> {
+    // Enhanced ticket creation with security and audit trails
+    const ticketData: JIRATicketData = {
       project: contract.integration.enterprise_systems.jira_integration.project_key,
       issuetype: contract.integration.enterprise_systems.jira_integration.issue_type,
       summary: `COTC V1.0 Violation: ${violation.description}`,
@@ -61,95 +73,73 @@ class EnhancedJIRAIntegration {
     }
     
     // Create ticket with cryptographic audit trail
-    const ticketId = await this.jiraClient.createIssue(ticketData)
+    const ticket = await this.jiraClient.createTicket(ticketData)
+    const auditHash = await this.auditLogger.logTicketCreation(ticket, violation)
     
-    // Log ticket creation with signature
-    await this.auditLogger.logJIRATicketCreation(
-      contract.contract_id,
-      ticketId,
-      violation,
-      await this.generateTicketSignature(ticketData)
-    )
-    
-    return ticketId
+    return {
+      ticket_id: ticket.key,
+      ticket_url: ticket.self,
+      created_at: new Date(),
+      audit_hash: auditHash
+    }
   }
- 
-  private async encryptSensitiveDetails(sensitiveData: any): Promise<string> {
-    if (!sensitiveData) return ''
-    
-    const encrypted = await this.encryptionManager.encryptSensitiveData(sensitiveData)
-    return encrypted.encryptedContent
-  }
- 
+
   private generateEnhancedViolationDescription(
-    violation: EnhancedViolation,
+    violation: EnhancedViolation, 
     contract: EnhancedEnterpriseContract
   ): string {
     return `
-## COTC V1.0 Validation Violation
- 
-**Contract ID:** ${contract.contract_id}
-**Severity:** ${contract.governance.severity}
-**Security Classification:** ${contract.metadata.security_classification}
- 
-### Violation Details
-${violation.description}
- 
-### Validation Context
+## COTC V1.0 Governance Violation Report
+
+**Violation Summary:** ${violation.description}
+
+**Validation Details:**
 - **Confidence Score:** ${violation.confidence_score}
 - **Diversity Score:** ${violation.diversity_score || 'N/A'}
-- **Validators Used:** ${violation.validators_used?.join(', ') || 'Unknown'}
-- **Ground Truth Verified:** ${violation.ground_truth_verified ? 'Yes' : 'No'}
 - **Security Verified:** ${violation.security_verified ? 'Yes' : 'No'}
- 
-### Regulatory Alignment
-${this.formatRegulatoryAlignment(contract.enhanced_governance?.regulatory_alignment)}
- 
-### Required Actions
-${violation.required_actions?.join('\n- ') || 'See validation report for details'}
- 
-### Audit Trail Reference
-**Session ID:** ${violation.session_id}
-**Cryptographic Hash:** ${violation.audit_hash}
-    `.trim()
+- **Validators Used:** ${(violation as any).validators_used?.join(', ') || 'Unknown'}
+- **Ground Truth Verified:** ${(violation as any).ground_truth_verified ? 'Yes' : 'No'}
+
+**Contract Information:**
+- **Contract ID:** ${contract.contract_id}
+- **Severity:** ${contract.governance.severity}
+- **Compliance Requirements:** ${contract.governance.compliance_requirements.join(', ')}
+- **Security Classification:** ${contract.metadata.security_classification}
+
+**Required Actions:**
+${(violation as any).required_actions?.join('\\n- ') || 'See validation report for details'}
+
+**Audit Information:**
+**Session ID:** ${(violation as any).session_id}
+**Cryptographic Hash:** ${(violation as any).audit_hash}
+
+---
+*This ticket was automatically generated by COTC V1.0 with cryptographic audit trail verification.*
+    `
   }
 
   private mapSeverityToPriority(severity: string): string {
     const mapping: Record<string, string> = {
-      'low': 'Low',
+      'critical': 'Highest',
+      'high': 'High', 
       'medium': 'Medium',
-      'high': 'High',
-      'critical': 'Highest'
-    };
-    return mapping[severity] || 'Medium';
+      'low': 'Low'
+    }
+    return mapping[severity] || 'Medium'
   }
 
   private mapSecurityClassification(classification: string): string {
-    return classification;
+    const mapping: Record<string, string> = {
+      'restricted': '10000',
+      'confidential': '10001',
+      'internal': '10002',
+      'public': '10003'
+    }
+    return mapping[classification] || '10002'
   }
 
-  private formatRegulatoryAlignment(alignment: any): string {
-    if (!alignment) return 'Not specified';
-    return JSON.stringify(alignment, null, 2);
+  private async encryptSensitiveDetails(sensitiveData: any): Promise<string> {
+    if (!sensitiveData) return ''
+    return await this.encryptionService.encrypt(JSON.stringify(sensitiveData))
   }
-
-  private async generateTicketSignature(ticketData: any): Promise<string> {
-    // Generate cryptographic signature for audit trail
-    return 'signature_placeholder';
-  }
-
-  // Mock properties for compilation
-  private jiraClient = {
-    createIssue: async (data: any) => 'TICKET-12345'
-  };
-  
-  private auditLogger = {
-    logJIRATicketCreation: async (...args: any[]) => {}
-  };
-  
-  private encryptionManager = {
-    encryptSensitiveData: async (data: any) => ({ encryptedContent: 'encrypted_data' })
-  };
 }
-
-export { EnhancedJIRAIntegration };

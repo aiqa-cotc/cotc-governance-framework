@@ -1,3 +1,111 @@
+// 
+// 🔙 Return to main document: [COTC Protocol Documentation](./cotc-protocol.md)
+// 📍 This file contains: Enhanced Resilience Manager
+//
+
+// Import common types
+import type {
+  ValidatorInfo,
+  ValidationStep
+} from './cotc_protocol_common_types'
+
+// Type definitions for Resilience Manager
+interface RecoveryResult {
+  success: boolean
+  recovery_time_ms: number
+  fallback_used: boolean
+  validator_restored: boolean
+}
+
+interface RebalancingResult {
+  success: boolean
+  validators_added: ValidatorInfo[]
+  validators_removed: ValidatorInfo[]
+  new_diversity_score: number
+  performance_impact: string
+}
+
+interface EscalationResult {
+  escalated: boolean
+  escalation_level: 'technical' | 'business' | 'executive'
+  notification_sent: boolean
+  incident_id: string
+}
+
+interface ValidatorFallback {
+  validator_id: string
+  priority: number
+  capabilities: string[]
+  estimated_quality: number
+}
+
+interface FailureType {
+  category: 'network' | 'performance' | 'security' | 'validation' | 'timeout'
+  severity: 'low' | 'medium' | 'high' | 'critical'
+  recoverable: boolean
+}
+
+interface RecoveryIntegrityResult {
+  integrity_maintained: boolean
+  audit_trail_complete: boolean
+  data_consistency: boolean
+  validation_accuracy: number
+}
+
+interface CircuitBreakerState {
+  state: 'closed' | 'open' | 'half_open'
+  failure_count: number
+  success_count: number
+  last_failure_time?: Date
+  next_attempt_time?: Date
+}
+
+interface DiversityMetrics {
+  architecture_diversity: number
+  vendor_diversity: number
+  geographic_diversity: number
+  training_data_diversity: number
+  overall_score: number
+}
+
+interface BusinessImpact {
+  revenue_impact: 'none' | 'low' | 'medium' | 'high' | 'critical'
+  customer_impact: 'none' | 'low' | 'medium' | 'high' | 'critical'
+  compliance_impact: 'none' | 'low' | 'medium' | 'high' | 'critical'
+  operational_impact: 'none' | 'low' | 'medium' | 'high' | 'critical'
+}
+
+interface SecurityImplication {
+  confidentiality_breach: boolean
+  integrity_compromise: boolean
+  availability_impact: boolean
+  authentication_bypass: boolean
+  authorization_escalation: boolean
+}
+
+interface RecoveryStep {
+  step_name: string
+  description: string
+  estimated_time_ms: number
+  success_probability: number
+  dependencies: string[]
+}
+
+interface RiskAssessment {
+  overall_risk: 'low' | 'medium' | 'high' | 'critical'
+  business_impact: BusinessImpact
+  security_implications: SecurityImplication
+  likelihood: number
+  mitigation_required: boolean
+}
+
+interface PartialRecovery {
+  recovered_components: string[]
+  remaining_failures: string[]
+  recovery_percentage: number
+  estimated_full_recovery_time: number
+}
+
 // EnhancedResilienceManager Interface for COTC Protocol
 interface EnhancedResilienceManager {
   // Circuit breaker for external services with intelligent recovery
@@ -66,14 +174,6 @@ interface EnhancedRetryConfig {
   jitter: boolean
   retryCondition: (error: Error) => boolean
   onRetry?: (attempt: number, error: Error) => void
-}
-
-interface ValidatorFallback {
-  validatorId: string
-  priority: number
-  capabilities: string[]
-  performance_tier: 'premium' | 'standard' | 'basic'
-  diversity_contribution: DiversityMetrics
 }
 
 interface CriticalFailure {
