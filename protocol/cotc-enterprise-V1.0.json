@@ -1,0 +1,164 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "cotc-enterprise-V1.0.json",
+  "title": "COTC Enterprise Contract Schema V1.0",
+  "description": "JSON Schema for COTC Enterprise Contract specifications",
+  "type": "object",
+  "required": ["version", "contract_id", "metadata", "governance"],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "@cotc": {
+      "type": "string",
+      "enum": ["enterprise_contract"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["name", "created_by", "created_at"],
+      "properties": {
+        "name": {"type": "string"},
+        "description": {"type": "string"},
+        "created_by": {"type": "string"},
+        "created_at": {"type": "string"},
+        "last_modified": {"type": "string"},
+        "tags": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "security_classification": {
+          "type": "string",
+          "enum": ["public", "internal", "confidential", "restricted"]
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["contract_type", "severity"],
+      "properties": {
+        "contract_type": {
+          "type": "string",
+          "enum": ["bug", "feature", "security", "compliance", "enhancement", "refactor"]
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "compliance_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["SOX", "HIPAA", "PCI_DSS", "GDPR"]
+          }
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {"type": "string"},
+              "contact": {"type": "string"},
+              "notification_required": {"type": "boolean"},
+              "approval_required": {"type": "boolean"},
+              "escalation_level": {
+                "type": "string",
+                "enum": ["primary", "secondary", "executive"]
+              }
+            }
+          }
+        },
+        "sla_requirements": {
+          "type": "object",
+          "properties": {
+            "resolution_time": {
+              "type": "string",
+              "enum": ["1_hour", "4_hours", "24_hours", "72_hours"]
+            },
+            "escalation_triggers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "condition": {"type": "string"},
+                  "escalation_target": {"type": "string"},
+                  "notification_method": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "audit_metadata": {
+          "type": "object",
+          "properties": {
+            "business_impact": {"type": "string"},
+            "regulatory_mapping": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "risk_classification": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"]
+            },
+            "data_sensitivity": {
+              "type": "string",
+              "enum": ["public", "internal", "confidential", "restricted"]
+            }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "technical_scope": {
+          "type": "object",
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "directories": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "environments": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["development", "staging", "production"]
+              }
+            },
+            "systems": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        },
+        "business_scope": {
+          "type": "object",
+          "properties": {
+            "departments": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "business_units": {
+              "type": "array",
+              "items": {"type": "string"}
+            },
+            "geographic_regions": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

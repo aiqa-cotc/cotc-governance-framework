@@ -132,12 +132,16 @@ export interface EnhancedEnterpriseContract {
     severity: string
     contract_type: string
     compliance_requirements: string[]
+    stakeholders?: Stakeholder[]
   }
   metadata: {
     security_classification: string
   }
   enhanced_governance?: {
     regulatory_alignment?: any
+    validation_chain?: ValidationStep[]
+    stakeholders?: Stakeholder[]
+    enhanced_security?: any
   }
 }
 

@@ -1,12 +1,5 @@
-/* 
- * Financial Services AI Code Security Review Contract
- * Back to main document: [COTC Protocol](./cotc-protocol.md)
- * 
- * This contract demonstrates enterprise-grade AI governance for financial services
- * code generation with SOX compliance and comprehensive security validation.
- */
-
 {
+  "_description": "Financial Services AI Code Security Review Contract - Back to main document: [COTC Protocol](./cotc-protocol.md) - This contract demonstrates enterprise-grade AI governance for financial services code generation with SOX compliance and comprehensive security validation.",
   "version": "2.2",
   "contract_id": "fin-ai-code-sec-002",
   "governance": {

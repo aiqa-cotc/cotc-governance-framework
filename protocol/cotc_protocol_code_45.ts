@@ -136,7 +136,7 @@ interface EnhancedResilienceManager {
 interface EnhancedErrorRecoveryStrategy {
   // Partial failure handling with validator diversity
   handlePartialValidationFailure(
-    session: ValidationSession, 
+    session: ResilienceValidationSession, 
     failedSteps: number[]
   ): Promise<RecoveryAction>
   
@@ -186,7 +186,7 @@ interface CriticalFailure {
   stakeholders: string[]
 }
 
-interface ValidationSession {
+interface ResilienceValidationSession {
   sessionId: string
   contractId: string
   status: 'active' | 'paused' | 'failed' | 'completed'

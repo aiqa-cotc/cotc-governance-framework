@@ -1,6 +1,16 @@
 import asyncio  # Required to run async functions
-# Ensure cotc_enterprise is installed: pip install cotc-enterprise
-from cotc_enterprise import COTCValidator, ValidationRequest
+
+# Note: This is an example integration file. In a real implementation,
+# install the COTC Enterprise SDK with: pip install cotc-enterprise
+try:
+    from cotc_enterprise import COTCValidator, ValidationRequest
+except ImportError:
+    # Mock implementations for documentation purposes
+    class COTCValidator:
+        def __init__(self, **kwargs): pass
+        async def validate_content(self, **kwargs): 
+            return {"status": "passed", "confidence": 0.95}
+    class ValidationRequest: pass
 
 # Initialize validator
 validator = COTCValidator(

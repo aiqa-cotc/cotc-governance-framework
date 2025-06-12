@@ -1,5 +1,14 @@
-# Ensure cotc_enterprise is installed: pip install cotc_enterprise
-from cotc_enterprise import COTCMiddleware
+# Note: This is an example integration file. In a real implementation,
+# install the COTC Enterprise SDK with: pip install cotc_enterprise
+try:
+    from cotc_enterprise import COTCMiddleware
+except ImportError:
+    # Mock implementation for documentation purposes
+    class COTCMiddleware:
+        def __init__(self, **kwargs): pass
+        async def validate_request(self, **kwargs): 
+            return {"status": "passed", "confidence": 0.95}
+
 from typing import Any # Add typing for ContentRequest
 
 # Placeholder for Flask/FastAPI app instance

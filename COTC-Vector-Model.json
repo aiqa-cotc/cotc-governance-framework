@@ -1,7 +1,6 @@
 {
-  "$schema": "https://aiqa.ai/schemas/cotc-vector-model-v1.0.json",
+  "_description": "Formal schema for the COTC Governance Vector Model, mapping governance contracts across AI roles, industries, regulations, asset types, risk classes, and actor types.",
   "version": "1.0",
-  "description": "Formal schema for the COTC Governance Vector Model, mapping governance contracts across AI roles, industries, regulations, asset types, risk classes, and actor types.",
   "vector": {
     "id": "string (unique identifier)",
     "role": "string (e.g., CFO, CISO, CMO)",

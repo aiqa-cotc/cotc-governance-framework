@@ -8,46 +8,46 @@
     "description": "string",
     "created_by": "string",
     "created_at": "ISO8601",
-    "last_modified": "ISO8601",
-    "tags": ["string"],
-    "security_classification": "public|internal|confidential|restricted"
+    "last_modified": "2025-06-11T00:00:00Z",
+    "tags": ["example", "template"],
+    "security_classification": "internal"
   },
   "governance": {
-    "contract_type": "bug|feature|security|compliance|enhancement|refactor",
-    "severity": "low|medium|high|critical",
+    "contract_type": "compliance",
+    "severity": "medium",
     "compliance_requirements": ["SOX", "HIPAA", "PCI_DSS", "GDPR"],
     "stakeholders": [
       {
-        "role": "security_team|compliance_officer|tech_lead|business_owner",
-        "contact": "string",
+        "role": "compliance_officer",
+        "contact": "compliance@company.com",
         "notification_required": true,
         "approval_required": false,
-        "escalation_level": "primary|secondary|executive"
+        "escalation_level": "primary"
       }
     ],
     "sla_requirements": {
-      "resolution_time": "1_hour|4_hours|24_hours|72_hours",
+      "resolution_time": "24_hours",
       "escalation_triggers": [
         {
-          "condition": "time_exceeded|confidence_low|critical_severity",
-          "escalation_target": "string",
-          "notification_method": "email|slack|sms|all"
+          "condition": "time_exceeded",
+          "escalation_target": "manager@company.com",
+          "notification_method": "email"
         }
       ]
     },
     "audit_metadata": {
-      "business_impact": "revenue|compliance|security|operational",
-      "regulatory_mapping": ["string"],
-      "risk_classification": "low|medium|high|critical",
-      "data_sensitivity": "public|internal|confidential|restricted"
+      "business_impact": "compliance",
+      "regulatory_mapping": ["SOX-404", "HIPAA-164.312"],
+      "risk_classification": "medium",
+      "data_sensitivity": "internal"
     }
   },
   "scope": {
     "technical_scope": {
-      "files": ["string"],
-      "directories": ["string"],
-      "environments": ["development|staging|production"],
-      "systems": ["string"]
+      "files": ["src/**/*.ts"],
+      "directories": ["src/", "tests/"],
+      "environments": ["production"],
+      "systems": ["web-application"]
     },
     "business_scope": {
       "departments": ["string"],
