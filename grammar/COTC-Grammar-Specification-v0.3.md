@@ -1,24 +1,30 @@
-# COTC Prompt Grammar Specification v0.3 – Language-Level Standardization
+
+# COTC Prompt Grammar Specification v0.3
+## Language-Level Standardization
+
+---
 
 ## 0. Historical Framing: From JavaScript to TypeScript, From Prompts to Contracts
 
-The transition from prompt engineering to COTC mirrors the evolution of untyped, free-form programming toward structured, contract-based software development. Just as `JavaScript` allowed flexible but error-prone coding and `TypeScript` introduced a type system to add safety, predictability, and tooling, COTC provides a governance layer that transforms natural language prompts into executable, verifiable contracts.
+
+The transition from prompt engineering to COTC mirrors the evolution of untyped, free-form programming toward structured, contract-based software development. Just as **JavaScript** allowed flexible but error-prone coding and **TypeScript** introduced a type system to add safety, predictability, and tooling, COTC provides a governance layer that transforms natural language prompts into executable, verifiable contracts.
 
 This analogy clarifies why GCPG is not just a syntactic refinement—it's an infrastructural upgrade that enables:
-* Static validation of logical instructions (like a linter or type checker)
-* Runtime enforcement of constraints and fallback handling
-* Structured prompt auditing, refactoring, and modular reuse
+
+- **Static validation** of logical instructions (like a linter or type checker)
+- **Runtime enforcement** of constraints and fallback handling
+- **Structured prompt auditing**, refactoring, and modular reuse
 
 By introducing constraints, structure, and validator tooling, GCPG enables prompts to move from expressive prototypes to infrastructure-grade, contract-governed interactions.
 
-| Evolution Stage      | `JavaScript` → `TypeScript`                | Prompt Engineering → COTC              | CS Principle                           |
-| -------------------- | ------------------------------------------- | -------------------------------------- | -------------------------------------- |
-| Language Flexibility | Dynamic, permissive                        | Natural, expressive                    | Expressiveness vs. Safety Trade-off   |
-| Core Problem         | Lack of safety, no type guarantees         | No validation, high drift risk         | Correctness by Construction            |
-| Key Innovation       | Static typing, interfaces                  | Prompt contracts, GCPG grammar         | Formal Specification                   |
-| Tooling Enablement   | Linting, IDE autocomplete, refactoring    | Validator chains, audit logs, fallback | Static Analysis & Runtime Verification |
-| Developer Discipline | Gradual type adoption, strict modes       | Constraint tiers, step enforcement     | Progressive Enhancement                |
-| Result               | Safer, scalable codebases                  | Trustworthy, modular AI interactions   | Compositional Reasoning                |
+| Evolution Stage      | JavaScript → TypeScript                | Prompt Engineering → COTC              | CS Principle                           |
+|----------------------|-----------------------------------------|----------------------------------------|----------------------------------------|
+| Language Flexibility | Dynamic, permissive                     | Natural, expressive                    | Expressiveness vs. Safety Trade-off    |
+| Core Problem         | Lack of safety, no type guarantees      | No validation, high drift risk         | Correctness by Construction            |
+| Key Innovation       | Static typing, interfaces               | Prompt contracts, GCPG grammar         | Formal Specification                   |
+| Tooling Enablement   | Linting, IDE autocomplete, refactoring | Validator chains, audit logs, fallback | Static Analysis & Runtime Verification |
+| Developer Discipline | Gradual type adoption, strict modes     | Constraint tiers, step enforcement     | Progressive Enhancement                |
+| Result               | Safer, scalable codebases               | Trustworthy, modular AI interactions   | Compositional Reasoning                |
 
 ---
 
