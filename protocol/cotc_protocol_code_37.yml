@@ -1,0 +1,29 @@
+# non-functional requirements
+performance:
+  validation_latency:
+    target: "< 30 seconds for 95th percentile"
+    critical: "< 60 seconds for 99th percentile"
+    diverse_ensemble: "< 45 seconds for 95th percentile with 3+ validator types"
+  
+  throughput:
+    target: "1000 validations/minute sustained"
+    peak: "5000 validations/minute for 10 minutes"
+    diverse_validation: "800 validations/minute with full diversity requirements"
+  
+  availability:
+    target: "99.9% uptime"
+    recovery_time: "< 5 minutes for service restart"
+    validator_failover: "< 30 seconds for validator replacement"
+
+  # NEW: scalability requirements
+  scalability:
+    agent_scaling: "0 to 100 agents in < 2 minutes"
+    diverse_agent_scaling: "0 to 30 diverse agents (3 types) in < 3 minutes"
+    data_growth: "Support 10M+ contracts, 100M+ validation sessions"
+    human_review_scaling: "Support 1000+ concurrent human reviewers"
+
+  # NEW: Security performance requirements
+  security:
+    integrity_verification: "< 5 seconds for audit trail verification"
+    adversarial_test_execution: "< 10 minutes for comprehensive test suite"
+    supply_chain_verification: "< 2 minutes for agent integrity check"

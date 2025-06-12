@@ -1,0 +1,588 @@
+openapi: 3.0.3
+info:
+  title: COTC Enterprise API V1.0
+  description: Complete API specification for COTC Protocol V1.0
+  version: 2.2.0
+  contact:
+    name: COTC Enterprise Support
+    url: https://cotc.enterprise.com/support
+    email: support@cotc.enterprise.com
+
+servers:
+  - url: https://api.cotc.enterprise.com/V1.0
+    description: Production API Server
+  - url: https://staging-api.cotc.enterprise.com/V1.0
+    description: Staging API Server
+
+security:
+  - ApiKeyAuth: []
+  - OAuth2: [read, write]
+
+paths:
+/contracts:
+post:
+summary: Create Enterprise Contract
+description: Create a new COTC contract with security and governance features
+operationId: createEnhancedContract
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedCOTCContract'
+responses:
+'201':
+description: Contract created successfully
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/ContractResponse'
+'400':
+description: Invalid contract specification
+'401':
+description: Unauthorized
+'403':
+description: Insufficient permissions
+
+get:
+summary: List Contracts
+description: Retrieve list of contracts with filtering and sorting
+operationId: listEnhancedContracts
+parameters:
+- name: contract_type
+in: query
+schema:
+type: string
+enum: [security, compliance, feature, bug, enhancement]
+- name: severity
+in: query
+schema:
+type: string
+enum: [low, medium, high, critical]
+- name: security_classification
+in: query
+schema:
+type: string
+enum: [public, internal, confidential, restricted]
+- name: compliance_framework
+in: query
+schema:
+type: string
+enum: [SOX, HIPAA, PCI_DSS, GDPR, NIST_AI_RMF, ISO_42001]
+- name: limit
+in: query
+schema:
+type: integer
+minimum: 1
+maximum: 100
+default: 20
+- name: offset
+in: query
+schema:
+type: integer
+minimum: 0
+default: 0
+responses:
+'200':
+description: List of contracts
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedContractList'
+
+/contracts/{contractId}:
+get:
+summary: Get Contract Details
+description: Retrieve detailed information about a specific contract
+operationId: getEnhancedContract
+parameters:
+- name: contractId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+responses:
+'200':
+description: contract details
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedCOTCContract'
+'404':
+description: Contract not found
+
+put:
+summary: Update Contract
+description: Update an existing contract with validation
+operationId: updateEnhancedContract
+parameters:
+- name: contractId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedCOTCContract'
+responses:
+'200':
+description: Contract updated successfully
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/ContractResponse'
+
+/contracts/{contractId}/validate:
+post:
+summary: Validate Contract Schema and Security
+description: Perform comprehensive validation of contract including security checks
+operationId: validateEnhancedContract
+parameters:
+- name: contractId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+requestBody:
+content:
+application/json:
+schema:
+type: object
+properties:
+include_security_validation:
+type: boolean
+default: true
+include_compliance_validation:
+type: boolean
+default: true
+include_diversity_validation:
+type: boolean
+default: true
+responses:
+'200':
+description: validation results
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedValidationResult'
+
+/validations:
+post:
+summary: Execute Multi-Agent Validation
+description: Execute validation with security, diversity, and governance controls
+operationId: executeEnhancedValidation
+requestBody:
+required: true
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedValidationRequest'
+responses:
+'202':
+description: Validation initiated
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/ValidationSession'
+'400':
+description: Invalid validation request
+
+/validations/{sessionId}:
+get:
+summary: Get Validation Status
+description: Retrieve detailed status of validation session including security metrics
+operationId: getEnhancedValidationStatus
+parameters:
+- name: sessionId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+responses:
+'200':
+description: validation status
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedValidationStatus'
+
+/validations/{sessionId}/human-review:
+post:
+summary: Route for Intelligent Human Review
+description: Route validation for human review with intelligent priority and expertise matching
+operationId: routeForIntelligentHumanReview
+parameters:
+- name: sessionId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+requestBody:
+content:
+application/json:
+schema:
+type: object
+properties:
+priority:
+type: string
+enum: [low, medium, high, critical, emergency]
+required_expertise:
+type: array
+items:
+type: string
+enum: [security, compliance, privacy, medical, legal, technical]
+urgency_justification:
+type: string
+responses:
+'200':
+description: Review routing successful
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/HumanReviewAssignment'
+
+/agents:
+get:
+summary: List Validation Agents
+description: Retrieve list of available validation agents with diversity information
+operationId: listEnhancedValidationAgents
+parameters:
+- name: agent_type
+in: query
+schema:
+type: string
+enum: [security, compliance, domain, ground_truth, meta, privacy]
+- name: architecture_type
+in: query
+schema:
+type: string
+enum: [rule_based, interpretable_ml, foundation_llm, hybrid]
+- name: specialization
+in: query
+schema:
+type: string
+- name: include_health_status
+in: query
+schema:
+type: boolean
+default: false
+responses:
+'200':
+description: List of validation agents
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedAgentList'
+
+/agents/{agentId}/integrity:
+get:
+summary: Get Agent Integrity Status
+description: Retrieve comprehensive integrity and security status for validation agent
+operationId: getAgentIntegrityStatus
+parameters:
+- name: agentId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+responses:
+'200':
+description: Agent integrity status
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/AgentIntegrityStatus'
+
+/audit-trail/{sessionId}:
+get:
+summary: Get Cryptographic Audit Trail
+description: Retrieve immutable audit trail with cryptographic verification
+operationId: getCryptographicAuditTrail
+parameters:
+- name: sessionId
+in: path
+required: true
+schema:
+type: string
+format: uuid
+- name: include_integrity_verification
+in: query
+schema:
+type: boolean
+default: true
+responses:
+'200':
+description: Cryptographic audit trail
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/CryptographicAuditTrail'
+
+/compliance/reports:
+get:
+summary: Generate Compliance Reports
+description: Generate comprehensive compliance reports with cryptographic signatures
+operationId: generateEnhancedComplianceReports
+parameters:
+- name: framework
+in: query
+required: true
+schema:
+type: string
+enum: [NIST_AI_RMF, ISO_42001, GDPR, SOX, HIPAA, PCI_DSS]
+- name: date_range_start
+in: query
+required: true
+schema:
+type: string
+format: date
+- name: date_range_end
+in: query
+required: true
+schema:
+type: string
+format: date
+- name: include_cryptographic_signature
+in: query
+schema:
+type: boolean
+default: true
+responses:
+'200':
+description: compliance report
+content:
+application/json:
+schema:
+$ref: '#/components/schemas/EnhancedComplianceReport'
+
+components:
+securitySchemes:
+ApiKeyAuth:
+type: apiKey
+in: header
+name: X-COTC-API-Key
+OAuth2:
+type: oauth2
+flows:
+clientCredentials:
+tokenUrl: https://auth.cotc.enterprise.com/oauth2/token
+scopes:
+read: Read access to contracts and validations
+write: Write access to create and modify contracts
+admin: Administrative access to all resources
+
+schemas:
+EnhancedCOTCContract:
+type: object
+# Schema definition matches the JSON schema above
+
+EnhancedValidationRequest:
+type: object
+required: [contract_id, input_data]
+properties:
+contract_id:
+type: string
+format: uuid
+input_data:
+type: object
+context:
+type: object
+priority:
+type: string
+enum: [low, medium, high, critical]
+require_diversity_compliance:
+type: boolean
+default: true
+require_security_verification:
+type: boolean
+default: true
+human_review_preferences:
+type: object
+properties:
+preferred_expertise:
+type: array
+items:
+type: string
+max_review_time:
+type: integer
+description: Maximum acceptable review time in minutes
+
+EnhancedValidationResult:
+type: object
+properties:
+session_id:
+type: string
+format: uuid
+contract_id:
+type: string
+format: uuid
+overall_status:
+type: string
+enum: [passed, failed, warning, human_review_required]
+confidence_score:
+type: number
+minimum: 0
+maximum: 1
+diversity_score:
+type: number
+minimum: 0
+maximum: 1
+security_verified:
+type: boolean
+compliance_verified:
+type: boolean
+validation_results:
+type: array
+items:
+$ref: '#/components/schemas/ValidationStepResult'
+ground_truth_results:
+type: array
+items:
+$ref: '#/components/schemas/GroundTruthResult'
+human_review_status:
+$ref: '#/components/schemas/HumanReviewStatus'
+audit_hash:
+type: string
+description: Cryptographic hash of complete validation session
+created_at:
+type: string
+format: date-time
+completed_at:
+type: string
+format: date-time
+
+ValidationStepResult:
+type: object
+properties:
+step_id:
+type: string
+validator_id:
+type: string
+format: uuid
+validator_type:
+type: string
+result:
+type: string
+enum: [pass, fail, warning]
+confidence:
+type: number
+minimum: 0
+maximum: 1
+details:
+type: object
+integrity_verified:
+type: boolean
+execution_time_ms:
+type: integer
+diversity_contribution:
+type: object
+properties:
+architecture_type:
+type: string
+vendor:
+type: string
+training_data_source:
+type: string
+
+HumanReviewStatus:
+type: object
+properties:
+required:
+type: boolean
+assigned_reviewer:
+type: string
+reviewer_expertise:
+type: array
+items:
+type: string
+priority:
+type: string
+enum: [low, medium, high, critical]
+estimated_completion:
+type: string
+format: date-time
+status:
+type: string
+enum: [pending, in_progress, completed, escalated]
+
+CryptographicAuditTrail:
+type: object
+properties:
+session_id:
+type: string
+format: uuid
+entries:
+type: array
+items:
+$ref: '#/components/schemas/AuditTrailEntry'
+integrity_verification:
+$ref: '#/components/schemas/IntegrityVerification'
+blockchain_reference:
+type: string
+description: Reference to blockchain entry if applicable
+
+AuditTrailEntry:
+type: object
+properties:
+entry_id:
+type: string
+format: uuid
+timestamp:
+type: string
+format: date-time
+action:
+type: string
+actor:
+type: string
+target:
+type: string
+details:
+type: object
+hash:
+type: string
+previous_hash:
+type: string
+signature:
+type: string
+
+IntegrityVerification:
+type: object
+properties:
+verification_status:
+type: string
+enum: [verified, failed, unknown]
+verification_timestamp:
+type: string
+format: date-time
+hash_chain_valid:
+type: boolean
+signature_valid:
+type: boolean
+issues:
+type: array
+items:
+type: object
+properties:
+type:
+type: string
+severity:
+type: string
+enum: [low, medium, high, critical]
+description:
+type: string
+resolution_status:
+type: string
+enum: [open, in_progress, resolved, accepted_risk]
+stakeholders_notified:
+type: array
+items:
+type: string
