@@ -1,0 +1,118 @@
+{
+  "$id": "cotc.protocol.contract.schema.v1.full.json",
+  "title": "COTC Protocol-Level Contract Schema v1.0 (Full)",
+  "type": "object",
+  "required": ["contract_id", "role", "constraint_tier", "applies_to", "description", "task_type", "constraints", "stakeholders", "validation", "confidence_requirements"],
+  "properties": {
+    "contract_id": { "type": "string" },
+    "version": { "type": "string" },
+    "role": { "type": "string", "enum": ["validator", "generator", "auditor", "executor"] },
+    "constraint_tier": { "type": "integer", "minimum": 0, "maximum": 4 },
+    "applies_to": { "type": "string" },
+    "description": { "type": "string" },
+    "task_type": { "type": "string", "enum": ["bug_fix", "enhancement", "feature", "maintenance"] },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["field", "type", "violation_tier"],
+        "properties": {
+          "field": { "type": "string" },
+          "type": { "type": "string", "enum": ["string", "number", "boolean", "enum", "pattern", "range", "presence"] },
+          "pattern": { "type": "string" },
+          "violation_tier": { "type": "integer", "minimum": 0, "maximum": 4 },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "fallback_instructions": { "type": "string" },
+    "audit_fields": { "type": "array", "items": { "type": "string" } },
+    "stakeholders": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["role", "contact"],
+        "properties": {
+          "role": { "type": "string", "enum": ["security_team", "compliance_officer", "tech_lead", "business_owner", "privacy_officer", "ciso", "dpo"] },
+          "contact": { "type": "string", "minLength": 1 },
+          "notification_required": { "type": "boolean", "default": false },
+          "approval_required": { "type": "boolean", "default": false },
+          "escalation_level": { "type": "string", "enum": ["primary", "secondary", "executive"] },
+          "expertise_level": { "type": "string", "enum": ["technical", "business", "compliance", "security", "privacy", "medical", "executive"] }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "required": ["validation_chain"],
+      "properties": {
+        "pipeline_id": { "type": "string", "format": "uuid" },
+        "validation_chain": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["step_id", "agent_type", "agent_name"],
+            "properties": {
+              "step_id": { "type": "string" },
+              "agent_type": { "type": "string", "enum": ["compliance", "domain", "ground_truth", "risk", "meta", "security", "privacy"] },
+              "agent_name": { "type": "string" },
+              "required": { "type": "boolean", "default": true },
+              "timeout_ms": { "type": "integer", "minimum": 1000, "maximum": 300000 },
+              "retry_count": { "type": "integer", "minimum": 0, "maximum": 5 },
+              "failure_action": { "type": "string", "enum": ["fail", "warn", "continue"] },
+              "human_review_required": { "type": "boolean", "default": false },
+              "diversity_requirements": {
+                "type": "object",
+                "properties": {
+                  "architecture_diversity": { "type": "boolean", "default": false },
+                  "vendor_diversity": { "type": "boolean", "default": false },
+                  "training_data_independence": { "type": "boolean", "default": false },
+                  "architecture_types": {
+                    "type": "array",
+                    "items": { "type": "string", "enum": ["rule_based", "interpretable_ml", "foundation_llm", "hybrid"] }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "confidence_requirements": {
+      "type": "object",
+      "required": ["minimum_threshold"],
+      "properties": {
+        "minimum_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "escalation_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "learning_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "human_review_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
+        "diversity_bonus": { "type": "number", "minimum": 0, "maximum": 0.2 }
+      }
+    },
+    "compliance_requirements": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["SOX", "HIPAA", "PCI_DSS", "GDPR", "CCPA", "NIST_CSF", "ISO_27001", "ISO_42001"] }
+    },
+    "sla_requirements": {
+      "type": "object",
+      "properties": {
+        "resolution_time": { "type": "string", "enum": ["30_minutes", "1_hour", "2_hours", "4_hours", "24_hours", "72_hours"] },
+        "escalation_after": { "type": "string", "enum": ["15_minutes", "30_minutes", "1_hour", "2_hours", "12_hours", "24_hours"] },
+        "escalation_triggers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["condition", "escalation_target"],
+            "properties": {
+              "condition": { "type": "string", "enum": ["time_exceeded", "confidence_low", "critical_severity", "security_violation", "compliance_violation"] },
+              "escalation_target": { "type": "string" },
+              "notification_method": { "type": "string", "enum": ["email", "slack", "sms", "phone", "all"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}
